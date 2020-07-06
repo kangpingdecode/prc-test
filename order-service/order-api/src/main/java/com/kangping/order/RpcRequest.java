@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * <p>
- * 功能：
+ * 功能： 通信传输对象
  * </p>
  *
  * @author kangping

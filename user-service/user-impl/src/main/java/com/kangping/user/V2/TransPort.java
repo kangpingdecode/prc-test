@@ -1,4 +1,4 @@
-package com.kangping.user;
+package com.kangping.user.V2;
 
 import com.kangping.order.RpcRequest;
 

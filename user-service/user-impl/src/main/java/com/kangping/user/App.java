@@ -1,6 +1,7 @@
 package com.kangping.user;
 
 import com.kangping.order.OrderService;
+import com.kangping.order.PayService;
 import com.sun.deploy.util.OrderedHashSet;
 
 /**
@@ -18,10 +19,13 @@ import com.sun.deploy.util.OrderedHashSet;
 public class App {
 
     public static void main(String[] args) {
-        OrderService orderService = RpcProxyClient.newInstance(OrderService.class,"localhost",8081);
+        OrderService orderService = RpcProxyClient.newInstance(OrderService.class,"localhost",8888);
         String order = orderService.getOrder();
         String orderlist = orderService.getOrderlist(1);
         System.out.println(order);
         System.out.println(orderlist);
+
+        PayService payService = RpcProxyClient.newInstance(PayService.class,"localhost",8888);
+        System.out.println(payService.pay());
     }
 }

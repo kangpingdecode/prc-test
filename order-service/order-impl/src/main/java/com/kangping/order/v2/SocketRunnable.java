@@ -1,10 +1,11 @@
-package com.kangping.order;
+package com.kangping.order.v2;
+
+import com.kangping.order.RpcRequest;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
@@ -25,9 +26,8 @@ public class SocketRunnable implements Runnable {
 
     private Object server;
 
-    public SocketRunnable(Socket socket,Object server) {
+    public SocketRunnable(Socket socket) {
         this.socket = socket;
-        this.server = server;
     }
 
     public void run() {
@@ -38,7 +38,8 @@ public class SocketRunnable implements Runnable {
         try {
             objectInputStream = new ObjectInputStream(socket.getInputStream());
             RpcRequest rpcRequest = (RpcRequest) objectInputStream.readObject();
-            Object object = invoke(rpcRequest, server);
+            Mediator mediator = Mediator.getInstance();
+            Object object = mediator.Processor(rpcRequest);
             objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
             objectOutputStream.writeObject(object);
         } catch (Exception e) {
@@ -57,25 +58,6 @@ public class SocketRunnable implements Runnable {
 
         }
 
-    }
-
-    /***
-     * <p >
-     * 功能：
-     * </p>
-     *
-     * @param request
-     * @param server
-     * @return
-     * @author kangping
-     * @date  2020/7/3 15:53
-     */
-
-    public Object invoke(RpcRequest request, Object server) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        Class<?> aClass = Class.forName(request.getClassName());
-        Method method = aClass.getMethod(request.getMethodName(), request.getTypes());
-        Object invoke = method.invoke(server, request.getParameters());
-        return invoke;
     }
 
 }

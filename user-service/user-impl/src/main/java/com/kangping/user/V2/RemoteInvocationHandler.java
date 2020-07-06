@@ -1,6 +1,7 @@
-package com.kangping.user;
+package com.kangping.user.V2;
 
 import com.kangping.order.RpcRequest;
+import com.kangping.user.TransPort;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
